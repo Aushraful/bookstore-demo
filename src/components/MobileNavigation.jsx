@@ -83,7 +83,8 @@ export function MobileNavigation({ navigation }) {
             </button>
             <Link href="/" className="ml-6" aria-label="Home page">
               {/* <Logomark className="h-9 w-9" /> */}
-              <img src="/logo.webp" alt="PathakShamabesh" className='h-10 w-16' />
+              {/* <img src="/logo.webp" alt="PathakShamabesh" className='h-10 w-16' /> */}
+              <img src="/pathak-somabesh-logo.png" alt="PathakShamabesh" className='h-16' />
             </Link>
           </div>
           <Navigation navigation={navigation} className="mt-5 px-1" />

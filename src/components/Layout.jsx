@@ -112,7 +112,8 @@ function Header({ navigation }) {
           {/* <Logomark className="h-9 w-9 lg:hidden" />
           <Logo className="hidden h-9 w-auto fill-slate-700 dark:fill-sky-100 lg:block" /> */}
 
-          <img src="/logo.webp" alt="PathakShamabesh" className='h-10 w-16' />
+          {/* <img src="/logo.webp" alt="PathakShamabesh" className='h-10 w-16' /> */}
+          <img src="/logo.webp" alt="PathakShamabesh" className='h-16' />
           <span className='hidden md:block font-bold text-xl'>PathakShamabesh</span>
         </Link>
       </div>
