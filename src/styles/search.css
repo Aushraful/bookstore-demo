@@ -1,0 +1,107 @@
+/*! @search/css 3.1.0 | MIT License | © Algolia, Inc. and contributors | https://search.algolia.com */
+:root {
+  --search-primary-color: red;
+  --search-highlight-color: var(--search-primary-color);
+  --search-muted-color: theme('colors.slate.500');
+  --search-emphasis-color: theme('colors.slate.900');
+  --search-logo-color: #5468ff;
+  --search-modal-width: 35rem;
+  --search-modal-height: 37.5rem;
+  --search-modal-background: theme('colors.white');
+  --search-modal-shadow: theme('boxShadow.xl');
+  --search-searchbox-height: 3rem;
+  --search-hit-color: theme('colors.slate.700');
+  --search-hit-active-color: theme('colors.sky.600');
+  --search-hit-active-background: theme('colors.slate.100');
+  --search-footer-height: 3rem;
+  --search-border-color: theme('colors.slate.200');
+  --search-input-color: theme('colors.slate.900');
+  --search-heading-color: theme('colors.slate.900');
+  --search-key-background: theme('colors.slate.100');
+  --search-key-hover-background: theme('colors.slate.200');
+  --search-key-color: theme('colors.slate.500');
+  --search-action-color: theme('colors.slate.400');
+  --search-action-active-background: theme('colors.slate.200');
+  --search-loading-background: theme('colors.slate.400');
+  --search-loading-foreground: theme('colors.slate.900');
+}
+
+.dark {
+  --search-highlight-color: var(--search-primary-color);
+  --search-muted-color: theme('colors.slate.400');
+  --search-emphasis-color: theme('colors.white');
+  --search-logo-color: theme('colors.slate.300');
+  --search-modal-background: theme('colors.slate.800');
+  --search-modal-shadow: 0 0 0 1px theme('colors.slate.700'),
+    theme('boxShadow.xl');
+  --search-hit-color: theme('colors.slate.300');
+  --search-hit-active-color: theme('colors.sky.400');
+  --search-hit-active-background: rgb(51 65 85 / 0.3);
+  --search-border-color: rgb(148 163 184 / 0.1);
+  --search-heading-color: theme('colors.white');
+  --search-key-background: rgb(51 65 85 / 0.4);
+  --search-key-hover-background: rgb(51 65 85 / 0.8);
+  --search-key-color: theme('colors.slate.400');
+  --search-input-color: theme('colors.white');
+  --search-action-color: theme('colors.slate.500');
+  --search-action-active-background: theme('colors.slate.700');
+  --search-loading-background: theme('colors.slate.500');
+  --search-loading-foreground: theme('colors.white');
+}
+
+.Search--active {
+  overflow: hidden !important;
+}
+
+.Search-Container {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: -webkit-fill-available;
+  height: calc(var(--search-vh, 1vh) * 100);
+  background-color: rgb(15 23 42 / 0.5);
+  backdrop-filter: blur(theme('backdropBlur.DEFAULT'));
+  cursor: auto;
+}
+
+.Search-Modal {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  height: -webkit-fill-available;
+  height: calc(var(--search-vh, 1vh) * 100);
+  background: var(--search-modal-background);
+}
+
+.Search-SearchBar {
+  display: flex;
+  height: var(--search-searchbox-height);
+  border-bottom: 1px solid var(--search-border-color);
+}
+
+.Search-Input {
+  appearance: none;
+  color: var(--search-input-color);
+  flex: 1;
+  font-size: 1rem;
+  background: transparent;
+  padding: 0 1rem 0 3rem;
+  outline: none;
+}
+
+.Search-Input::placeholder {
+  color: theme('colors.slate.400');
+  opacity: 1;
+}
+
+.Search-Input::-webkit-search-cancel-button,
+.Search-Input::-webkit-search-decoration,
+.Search-Input::-webkit-search-results-button,
+.Search-Input::-webkit-search-results-decoration {
+  display: none;
+}
