@@ -114,13 +114,13 @@ export function Search() {
         !searchTerm ?
           '' :
         searchTerm && searchResults.length < 1 ?
-          <div className="w-[350px] lg:w-[500px] absolute z-50 mt-0 border bg-white">
+          <div className="hidden md:block w-[350px] lg:w-[500px] absolute z-50 mt-0 border bg-white">
             <div className='flex flex-wrap items-center content-center justify-center py-10'>
               <p className=''>No items found!</p>
             </div>
           </div>
           :
-          <div className="w-[350px] lg:w-[500px] absolute z-50 mt-0 border bg-white">
+          <div className="hidden md:block w-[350px] lg:w-[500px] absolute z-50 mt-0 border bg-white">
             <div className='relative h-[calc(100vh-130px)] md:h-[500px] overflow-hidden overflow-y-auto'>
               {searchResults.map(book => (
                 <div key={book.id} className="flex gap-3 px-3 py-1 m-3 border">
@@ -159,8 +159,8 @@ export function Search() {
       {isOpen &&
         createPortal(
           <>
-          <div className='Search Search-Container' onClick={onClose}>
-          </div>
+            <div className='md:hidden'>
+              <div className='Search Search-Container' onClick={onClose}></div>
 
             <div className='fixed inset-0 w-screen md:w-96 h-screen md:h-96 rounded p-3 bg-white z-50 mx-auto my-auto overflow-hidden'>
               <div className='my-1 md:text-center md:my-3'>Search books here</div>
@@ -170,15 +170,32 @@ export function Search() {
               >
                 <i className='fa fa-close'></i>
               </button>
-              <div className='mt-5 md:mt-0 justify-center'>
-                <input
+              <div className='relative rounded-md shadow-sm mt-5 md:mt-0 justify-center'>
+                {/* <input
                   type="text"
                   className='h-11 rounded w-full px-3 border focus:border-cyan-500 focus:ring-0 focus:outline-none'
                   autoFocus
                   placeholder='Search Books'
                   value={searchTerm}
                   onChange={handleSearch}
+                /> */}
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i className="fa fa-search"></i>
+                </div>
+                <input
+                  type="text"
+                  className='h-11 rounded w-full px-10 border focus:border-cyan-500 focus:ring-0 focus:outline-none'
+                  autoFocus
+                  placeholder='Search Books'
+                  value={searchTerm}
+                  onChange={handleSearch}
                 />
+                <div
+                  onClick={()=>setSearchTerm('')}
+                  class="absolute inset-y-0 right-0 flex items-center px-3 border hover:text-red-500 cursor-pointer"
+                >
+                  <i className="fa fa-times"></i>
+                </div>
               </div>
               {
                 !searchTerm || searchResults.length < 1 ?
@@ -187,39 +204,39 @@ export function Search() {
                   </div>
                   :
                   <div className='mt-3 h-[calc(100vh-130px)] md:h-64 overflow-hidden overflow-y-auto'>
-                      {searchResults.map(book => (
-                        <div key={book.id} className="flex gap-3 px-3 py-1 mb-3 border">
-                          <div className='w-20 h-20'>
-                            <Image 
-                              src={book.thumbnailUrl} 
-                              alt={book.title}
-                              height={100}
-                              width={100}
-                              className='w-full'
-                            />
-                          </div>
-                          <div>
-                            <Link href={`/book/${book.isbn}`} className="w-auto" onClick={onClose}>
-                            <span>{book.title}</span>
-                            </Link>
-                            <br />
-                            <small>ISBN: {book.isbn}</small>
-                            <br />
-                            <div className=''> Authors:
-                              {
-                                  book.authors.map((author, index) => {
-                                  return (
-                                    <small key={index} className="" style={{ textDecoration: 'none' }}>{author}, </small>
-                                  )
-                                })
-                              }
-                            </div>
+                    {searchResults.map(book => (
+                      <div key={book.id} className="flex gap-3 px-3 py-1 mb-3 border">
+                        <div className='w-20 h-20'>
+                          <Image 
+                            src={book.thumbnailUrl} 
+                            alt={book.title}
+                            height={100}
+                            width={100}
+                            className='w-full'
+                          />
+                        </div>
+                        <div>
+                          <Link href={`/book/${book.isbn}`} className="w-auto" onClick={onClose}>
+                          <span>{book.title}</span>
+                          </Link>
+                          <br />
+                          <small>ISBN: {book.isbn}</small>
+                          <br />
+                          <div className=''> Authors:
+                            {
+                                book.authors.map((author, index) => {
+                                return (
+                                  <small key={index} className="" style={{ textDecoration: 'none' }}>{author}, </small>
+                                )
+                              })
+                            }
                           </div>
                         </div>
-                      ))}
-                  </div>
+                      </div>
+                    ))}
+                </div>
               }
-              
+            </div>
           </div>
           </>,
             
