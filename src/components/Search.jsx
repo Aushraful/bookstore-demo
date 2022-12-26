@@ -76,7 +76,7 @@ export function Search() {
     <>
       <button
         type="button"
-        className="group flex h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-300 dark:md:bg-slate-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-slate-700/40 dark:md:hover:ring-slate-500 lg:w-96"
+        className="group flex md:hidden h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-300 dark:md:bg-slate-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-slate-700/40 dark:md:hover:ring-slate-500 lg:w-96"
         onClick={onOpen}
       >
         <SearchIcon className="h-5 w-5 flex-none fill-slate-400 group-hover:fill-slate-500 dark:fill-slate-500 md:group-hover:fill-slate-400" />
@@ -90,20 +90,74 @@ export function Search() {
           </kbd>
         )}
       </button>
+      
+      <div class="hidden md:block relative mt-1 rounded-md shadow-sm">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <i className="fa fa-search"></i>
+        </div>
+        <input
+          type="text"
+          className='block w-[350px] lg:w-[500px] h-11 pl-10 pr-10 rounded border border-r-0 focus:border-cyan-500 focus:ring-0 focus:outline-none'
+          autoFocus
+          placeholder='Search Books'
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <div
+          onClick={()=>setSearchTerm('')}
+          class="absolute inset-y-0 right-0 flex items-center px-3 border hover:text-red-500 cursor-pointer"
+        >
+          <i className="fa fa-times"></i>
+        </div>
+      </div>      
+      {
+        !searchTerm ?
+          '' :
+        searchTerm && searchResults.length < 1 ?
+          <div className="w-[350px] lg:w-[500px] absolute z-50 mt-0 border bg-white">
+            <div className='flex flex-wrap items-center content-center justify-center py-10'>
+              <p className=''>No items found!</p>
+            </div>
+          </div>
+          :
+          <div className="w-[350px] lg:w-[500px] absolute z-50 mt-0 border bg-white">
+            <div className='relative h-[calc(100vh-130px)] md:h-[500px] overflow-hidden overflow-y-auto'>
+              {searchResults.map(book => (
+                <div key={book.id} className="flex gap-3 px-3 py-1 m-3 border">
+                  <div className='w-20 h-20'>
+                    <Image 
+                      src={book.thumbnailUrl} 
+                      alt={book.title}
+                      height={100}
+                      width={100}
+                      className='w-full'
+                    />
+                  </div>
+                  <div>
+                    <Link href={`/book/${book.isbn}`} className="w-auto hover:text-cyan-500" onClick={onClose}>
+                    <span>{book.title}</span>
+                    </Link>
+                    <br />
+                    <small>ISBN: {book.isbn}</small>
+                    <br />
+                    <div className=''> Authors:
+                      {
+                          book.authors.map((author, index) => {
+                          return (
+                            <small key={index} className="" style={{ textDecoration: 'none' }}>{author}, </small>
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      }
+
       {isOpen &&
         createPortal(
-          // <DocSearchModal
-          //   {...docSearchConfig}
-          //   initialScrollY={window.scrollY}
-          //   onClose={onClose}
-          //   hitComponent={Hit}
-          //   navigator={{
-          //     navigate({ itemUrl }) {
-          //       Router.push(itemUrl)
-          //     },
-          //   }}
-          // />,
-
           <>
           <div className='Search Search-Container' onClick={onClose}>
           </div>
