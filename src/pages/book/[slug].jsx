@@ -10,6 +10,7 @@ import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import { useDocSearchKeyboardEvents } from "@docsearch/react"
 import { createPortal } from 'react-dom'
+import { RadioGroup } from '@headlessui/react'
 
 const Book = () => {
   const router = useRouter()
@@ -18,9 +19,9 @@ const Book = () => {
   const book = books.find((book) => book.isbn == slug)
 
   const agents = [
-    {id: 1, name: 'Agent 1', location: 'Shahbagh Rd, Dhaka 1205', locationImage: 'location-1.png'},
-    {id: 2, name: 'Agent 2', location: '278/3 (1st Floor, New Elephant Rd, Dhaka 1205', locationImage: 'location-2.png'},
-    {id: 3, name: 'Agent 3', location: '1205 Nilkhet Rd, Dhaka 1205', locationImage: 'location-3.png'},
+    {id: 1, name: 'Agent 1', location: 'Shahbagh Rd, Dhaka 1205', locationThumbnail: 'location-1.png', locationImage: 'location-1.png'},
+    {id: 2, name: 'Agent 2', location: '278/3 (1st Floor, New Elephant Rd, Dhaka 1205', locationThumbnail: 'location-2.png', locationImage: 'location-2.png'},
+    {id: 3, name: 'Agent 3', location: '1205 Nilkhet Rd, Dhaka 1205', locationThumbnail: 'location-3.png', locationImage: 'location-3.png'},
   ]
 
   const [num, setNum] = useState(0);
@@ -39,7 +40,8 @@ const Book = () => {
 
   const changeAgent = (e) => {
     setSelectedAgent(
-      agents.find((agent) => agent.id == e.target.value)
+      // agents.find((agent) => agent.id == e.target.value)
+      agents.find((agent) => agent.id == e)
     );
   }
 
@@ -147,7 +149,7 @@ const Book = () => {
             <div className="font-semibold">Select an agent</div>
 
             <div className="grid md:flex gap-3">
-              <select
+              {/* <select
                 name="agents"
                 id="agents"
                 className="w-full md:w-60 h-11 rounded border ring-0 outline-none active:border-cyan-500"
@@ -164,16 +166,80 @@ const Book = () => {
                     </option>
                   ))
                 }
-              </select>
+              </select> */}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <RadioGroup value={selectedAgent?.id} onChange={changeAgent}>
+                <RadioGroup.Label className="sr-only"> Privacy setting </RadioGroup.Label>
+                <div className="-space-y-px rounded-md bg-white">
+                  {console.log(selectedAgent)}
+                  {agents.map((agent, index) => (
+                    <RadioGroup.Option
+                      key={agent.id}
+                      value={agent.id}
+                      className={({ checked }) =>
+                        cn(
+                          index === 0 ? 'rounded-tl-md rounded-tr-md' : '',
+                          index === agents.length - 1 ? 'rounded-bl-md rounded-br-md' : '',
+                          checked ? 'bg-indigo-50 border-indigo-200 z-10' : 'border-gray-200',
+                          'relative border p-4 flex cursor-pointer focus:outline-none'
+                        )
+                      }
+                    >
+                  {/* {console.log(agent)} */}
+                      {({ active, checked }) => (
+                        <>
+                          <div className="w-full flex items-center justify-between space-x-3">
+                            <div className="flex items-center">
+                              <span
+                              className={cn(
+                                checked ? 'bg-indigo-600 border-transparent' : 'bg-white border-gray-300',
+                                active ? 'ring-2 ring-offset-2 ring-indigo-500' : '',
+                                'mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-full border flex items-center justify-center'
+                              )}
+                              aria-hidden="true"
+                            >
+                              <span className="rounded-full bg-white w-1.5 h-1.5" />
+                              </span>
+                              <span className="ml-3 flex flex-col">
+                                <RadioGroup.Label
+                                  as="span"
+                                  className={cn(checked ? 'text-indigo-900' : 'text-gray-900', 'block text-sm font-medium')}
+                                >
+                                  {agent.name}
+                                </RadioGroup.Label>
+                                <RadioGroup.Description
+                                  as="span"
+                                  className={cn(checked ? 'text-indigo-700' : 'text-gray-500', 'block text-sm')}
+                                >
+                                  {agent.location}
+                                </RadioGroup.Description>
+                              </span>
+                            </div>
+
+                            <button
+                              onClick={onOpen}
+                              className="w-full sm:w-auto h-9 px-2 pr-1 text-lg text-white border rounded space-x-2 bg-slate-500 hover:bg-slate-600 active:bg-slate-700"
+                            >
+                              <i className="fa fa-map"></i>
+                              <span
+                                className=""></span>
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </RadioGroup.Option>
+                  ))}
+                </div>
+              </RadioGroup>
 
               <button
                 onClick={onOpen}
-                className="w-full sm:w-auto h-11 px-3 text-lg text-white border rounded space-x-2 bg-slate-500 hover:bg-slate-600 active:bg-slate-700"
+                className="w-full sm:w-auto text-lg text-white border rounded border-slate-500 hover:border-red-600 active:border-red-700 hover:scale-105 duration-300"
               >
-                <i className="fa fa-map"></i>
-                <span
-                  className="">View Map</span>
+                <img src={`/locations/${selectedAgent?.locationThumbnail}`} alt="" className="w-full h-full m-0 rounded" />
               </button>
+              </div>
               {isOpen &&
                 createPortal(
                 // <DocSearchModal
@@ -193,14 +259,14 @@ const Book = () => {
                 </div>
 
                   <div className='fixed inset-0 w-[90%] md:w-[80%] h-96 md:h-[80%] rounded p-3 bg-white z-50 mx-auto my-auto overflow-hidden'>
-                    <div className='my-1 md:text-center md:my-3'>{selectedAgent.name +' - Location: '+ selectedAgent.location}</div>
+                    <div className='my-1 md:text-center md:my-3'>{selectedAgent?.name +' - Location: '+ selectedAgent?.location}</div>
                     <button
                       className='absolute right-0 top-0 md:right-5 md:top-3 border h-7 w-7 rounded-full hover:text-red-500 hover:border-red-500 focus:border-red-500 focus:text-red-500'
                       onClick={onClose}
                     >
                       <i className='fa fa-close'></i>
                     </button>
-                    <img src={`/locations/${selectedAgent.locationImage}`} alt="" className="w-full h-full" />
+                    <img src={`/locations/${selectedAgent?.locationImage}`} alt="" className="w-full h-full" />
                 </div>
                 </>,
                   
